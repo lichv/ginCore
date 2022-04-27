@@ -233,7 +233,7 @@ func GetPostgresDB(host string, port int, username, passwd, dbname string, logge
 }
 
 func GetSqlserverDB(host string, port int, username, passwd, dbname string, logger logger.Interface, namingStrategy schema.NamingStrategy) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("sqlserver://%s:%s@%S:%d?database=%s", username, passwd, host, port, dbname)
+	dsn := fmt.Sprintf("sqlserver://%s:%s@%s:%d?database=%s", username, passwd, host, port, dbname)
 	db, err := gorm.Open(sqlserver.Open(dsn), &gorm.Config{
 		Logger:         logger,
 		NamingStrategy: namingStrategy,
