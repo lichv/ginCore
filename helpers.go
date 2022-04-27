@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"io/ioutil"
@@ -240,4 +241,45 @@ func GetToken(ctx *gin.Context) string {
 		}
 	}
 	return token
+}
+
+func httpGet(url string) (string, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return "", err
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		// handle error
+		return "", err
+	}
+
+	fmt.Println(string(body))
+	return string(body), nil
+}
+func httpPost(url string, data map[string]interface{}) (map[string]interface{}, error) {
+	var result map[string]interface{}
+	var params []string
+	for key, value := range data {
+		params = append(params, key+"="+StrVal(value))
+	}
+
+	resp, err := http.Post(url, "application/x-www-form-urlencoded", strings.NewReader(strings.Join(params, "&")))
+	if err != nil {
+		return map[string]interface{}{}, err
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return map[string]interface{}{}, err
+	}
+
+	err = json.Unmarshal(body, &result)
+	if err != nil {
+		return map[string]interface{}{}, err
+	}
+	return result, nil
 }

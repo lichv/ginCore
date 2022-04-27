@@ -158,23 +158,23 @@ func NothingDone() func(db *gorm.DB) *gorm.DB {
 }
 func NameHandle(keyword string) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("name like ?", "%"+keyword+"%")
+		return db.Where("`name` like ?", "%"+keyword+"%")
 	}
 }
 func LabelHandle(keyword string) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("label like ?", "%"+keyword+"%")
+		return db.Where("`label` like ?", "%"+keyword+"%")
 	}
 }
 func NoteHandle(keyword string) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("note like ?", "%"+keyword+"%")
+		return db.Where("`note` like ?", "%"+keyword+"%")
 	}
 }
 
 func KeyWordHandle(keyword string) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("name like ?", "%"+keyword+"%").Or("label like ?", "%"+keyword+"%").Or("note like ?", "%"+keyword+"%")
+		return db.Where("`name` like ?", "%"+keyword+"%").Or("`label` like ?", "%"+keyword+"%").Or("`note` like ?", "%"+keyword+"%")
 	}
 }
 func GetMysqlDB(host string, port int, username string, passwd string, dbname string, charset string, logger logger.Interface, namingStrategy schema.NamingStrategy) (*gorm.DB, error) {
