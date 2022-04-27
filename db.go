@@ -158,23 +158,39 @@ func NothingDone() func(db *gorm.DB) *gorm.DB {
 }
 func NameHandle(keyword string) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("`name` like ?", "%"+keyword+"%")
+		if keyword != "" {
+			return db.Where("`name` like ?", "%"+keyword+"%")
+		} else {
+			return db
+		}
 	}
 }
 func LabelHandle(keyword string) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("`label` like ?", "%"+keyword+"%")
+		if keyword != "" {
+			return db.Where("`label` like ?", "%"+keyword+"%")
+		} else {
+			return db
+		}
 	}
 }
 func NoteHandle(keyword string) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("`note` like ?", "%"+keyword+"%")
+		if keyword != "" {
+			return db.Where("`note` like ?", "%"+keyword+"%")
+		} else {
+			return db
+		}
 	}
 }
 
 func KeyWordHandle(keyword string) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("`name` like ?", "%"+keyword+"%").Or("`label` like ?", "%"+keyword+"%").Or("`note` like ?", "%"+keyword+"%")
+		if keyword != "" {
+			return db.Where("`name` like ?", "%"+keyword+"%").Or("`label` like ?", "%"+keyword+"%").Or("`note` like ?", "%"+keyword+"%")
+		} else {
+			return db
+		}
 	}
 }
 func GetMysqlDB(host string, port int, username string, passwd string, dbname string, charset string, logger logger.Interface, namingStrategy schema.NamingStrategy) (*gorm.DB, error) {
